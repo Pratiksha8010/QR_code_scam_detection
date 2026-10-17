@@ -17,3 +17,6 @@ __pycache__/
 *.log
 # Original dataset archive
 archive.zip
+
+# Trained machine learning models
+models/
