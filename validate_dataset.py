@@ -35,3 +35,42 @@ print("\nHostnames with conflicting labels:", len(conflicting_domains))
 
 print("\nExamples of conflicting hostnames:")
 print(conflicting_domains.head(10))
+# Show URLs belonging to hostnames with conflicting labels
+print("\n--- Conflicting Hostname Details ---")
+
+conflicting_domain_names = conflicting_domains.index
+
+conflicting_rows = df[df["domain"].isin(conflicting_domain_names)]
+
+print(
+    conflicting_rows[["url", "domain", "label"]]
+    .sort_values(by=["domain", "label"])
+    .to_string(index=False)
+)
+# ----------------------------------
+# Check the largest hostnames
+# ----------------------------------
+
+print("\n--- Top 10 Most Common Hostnames ---")
+
+print(
+    df["domain"]
+    .value_counts()
+    .head(10)
+)
+
+
+# ----------------------------------
+# Check labels for the top hostnames
+# ----------------------------------
+
+print("\n--- Labels for the Top 10 Hostnames ---")
+
+top_domains = df["domain"].value_counts().head(10).index
+
+print(
+    df[df["domain"].isin(top_domains)]
+    .groupby(["domain", "label"])
+    .size()
+    .unstack(fill_value=0)
+)
